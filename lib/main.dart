@@ -28,30 +28,36 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
 
   int _selectedIndex = 0;
+  bool extended = false;
 
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
-        NavigationRail(
-          labelType: NavigationRailLabelType.all,
-          selectedLabelTextStyle: TextStyle(color: Colors.redAccent),
-          unselectedLabelTextStyle:  TextStyle(color: Colors.blueAccent),
-          backgroundColor: Colors.grey[900],
-          selectedIconTheme: IconThemeData(color: Colors.white),
-          selectedIndex: _selectedIndex,
-          onDestinationSelected:(index){
-           setState(() {
-             _selectedIndex=index;
-           });
-          } ,
-          destinations: [
-            NavigationRailDestination(icon: Icon(Icons.home),label: Text("Home")),
-            NavigationRailDestination(icon: Icon(Icons.bookmark_border),label: Text("Bookmark") )
-          ],
+        GestureDetector(
+          onTap: (){
+            setState(() {
+              extended = !extended;
+            });
+          },
+          child: NavigationRail(
+            extended: extended,
+            labelType: NavigationRailLabelType.none,
+            backgroundColor: Colors.grey[900],
+            selectedIndex: _selectedIndex,
+            onDestinationSelected:(index){
+             setState(() {
+               _selectedIndex=index;
+             });
+            } ,
+            destinations: [
+              NavigationRailDestination(icon: Icon(Icons.home),label: Text("Home")),
+              NavigationRailDestination(icon: Icon(Icons.bookmark_border),label: Text("Bookmark") )
+            ],
 
+          ),
         ),
-        Expanded(child: Container(
+        Expanded(child: Container(child: Text("Selected index $_selectedIndex"),
         ))
       ],
     );
