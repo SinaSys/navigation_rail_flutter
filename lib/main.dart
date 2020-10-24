@@ -34,6 +34,11 @@ class _MyHomePageState extends State<MyHomePage> {
     return Row(
       children: [
         NavigationRail(
+          labelType: NavigationRailLabelType.all,
+          selectedLabelTextStyle: TextStyle(color: Colors.redAccent),
+          unselectedLabelTextStyle:  TextStyle(color: Colors.blueAccent),
+          backgroundColor: Colors.grey[900],
+          selectedIconTheme: IconThemeData(color: Colors.white),
           selectedIndex: _selectedIndex,
           onDestinationSelected:(index){
            setState(() {
@@ -42,12 +47,11 @@ class _MyHomePageState extends State<MyHomePage> {
           } ,
           destinations: [
             NavigationRailDestination(icon: Icon(Icons.home),label: Text("Home")),
-            NavigationRailDestination(icon: Icon(Icons.bookmark_border),label: Text("Home") )
+            NavigationRailDestination(icon: Icon(Icons.bookmark_border),label: Text("Bookmark") )
           ],
 
         ),
         Expanded(child: Container(
-          color: Colors.grey,
         ))
       ],
     );
