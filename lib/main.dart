@@ -27,39 +27,53 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
 
-  int _selectedIndex = 0;
-  bool extended = false;
+  int _navigationRailSelectedIndex = 0;
+  PageController _pageController = PageController();
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        GestureDetector(
-          onTap: (){
-            setState(() {
-              extended = !extended;
-            });
-          },
-          child: NavigationRail(
-            extended: extended,
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Navigation Rail With PageView"),
+      ),
+      body:  Row(
+        children: [
+          NavigationRail(
             labelType: NavigationRailLabelType.none,
-            backgroundColor: Colors.grey[900],
-            selectedIndex: _selectedIndex,
+            backgroundColor: Colors.blue,
+            selectedIconTheme: IconThemeData(color: Colors.white),
+            selectedIndex: _navigationRailSelectedIndex,
             onDestinationSelected:(index){
-             setState(() {
-               _selectedIndex=index;
-             });
+              setState(() {
+                _navigationRailSelectedIndex=index;
+                _pageController.animateToPage(index, duration: Duration(milliseconds: 250), curve: Curves.bounceInOut);
+              });
             } ,
             destinations: [
               NavigationRailDestination(icon: Icon(Icons.home),label: Text("Home")),
-              NavigationRailDestination(icon: Icon(Icons.bookmark_border),label: Text("Bookmark") )
+              NavigationRailDestination(icon: Icon(Icons.phone),label: Text("Call") ),
+              NavigationRailDestination(icon: Icon(Icons.help),label: Text("Info") )
             ],
 
           ),
-        ),
-        Expanded(child: Container(child: Text("Selected index $_selectedIndex"),
-        ))
-      ],
+          Expanded(child: PageView(
+            scrollDirection: Axis.vertical,
+            controller: _pageController,
+            onPageChanged: (index){
+              setState(() {
+                _navigationRailSelectedIndex=index;
+              });
+
+            },
+            children: [
+              Container(color: Colors.grey[900]),
+              Container(color: Colors.indigo[900]),
+              Container(color: Colors.green[900])
+            ],
+          ),
+          )
+        ],
+      ),
     );
   }
 }
